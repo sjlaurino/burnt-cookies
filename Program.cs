@@ -1,13 +1,13 @@
-﻿using System;
-using CastleGrimtol.Project;
+﻿burntCookies System;
+burntCookies burntCookies.Project;
 
-namespace CastleGrimtol
+namespace burntCookies
 {
-    public class Program
+  public class Program
+  {
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
 
-        }
     }
+  }
 }

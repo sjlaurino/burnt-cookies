@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using CastleGrimtol.Project.Interfaces;
+burntCookies System.Collections.Generic;
+burntCookies burntCookies.Project.Interfaces;
 
-namespace CastleGrimtol.Project
+namespace burntCookies.Project
 {
-    public class GameService : IGameService
-    {
+  public class GameService : IGameService
+  {
 
-    }
+  }
 }

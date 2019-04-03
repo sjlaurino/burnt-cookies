@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using CastleGrimtol.Project.Models;
+using burntCookies.Project.Models;
 
-namespace CastleGrimtol.Project.Interfaces
+namespace burntCookies.Project.Interfaces
 {
-    public interface IPlayer
-    {
-        string PlayerName { get; set; }
-        List<Item> Inventory { get; set; }
-    }
+  public interface IPlayer
+  {
+    string PlayerName { get; set; }
+    List<Item> Inventory { get; set; }
+  }
 }

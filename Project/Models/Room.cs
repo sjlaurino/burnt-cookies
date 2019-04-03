@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using CastleGrimtol.Project.Interfaces;
+using burntCookies.Project.Interfaces;
 
-namespace CastleGrimtol.Project.Models
+namespace burntCookies.Project.Models
 {
-    public class Room : IRoom
-    {
+  public class Room : IRoom
+  {
 
-    }
+  }
 }

@@ -23,7 +23,7 @@
     - Evaluate that input on a switch to determine what action to run
       -  Go: runs the method you created to move from room to room
       - Take: attempts to move an item from the room list into the player inventory
-      - Use: You will need to write a method on how to handle using the item
+      - Use: You will need to write a method on how to handle burntCookies the item
       - Look: run the look method
       - Help: run the health method
       - Quit: run the quit method.
