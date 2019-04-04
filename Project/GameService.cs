@@ -8,11 +8,11 @@ namespace burntCookies.Project
 {
   public class GameService : IGameService
   {
-    private static System.Timers.Timer aTimer;
 
     public IRoom CurrentRoom { get; set; }
     Room IGameService.CurrentRoom { get; set; }
     public Player CurrentPlayer { get; set; }
+    public Timer aTimer { get; set; }
     public bool Playing { get; set; }
 
     Player Player = new Player();
@@ -296,20 +296,21 @@ namespace burntCookies.Project
           GetUserInput();
           break;
         case "cookies":
-          System.Console.WriteLine("Congratulations you made perfect cookies! You beat the Game!");
+          aTimer.Enabled = false;
+          System.Console.WriteLine("Congratulations you made perfect cookies and beat the Game!");
           System.Console.WriteLine(@"
               .---. .---. 
              :     : o   :    me want cookie!
          _..-:   o :     :-.._    /
-     .-''  '  `---' `---' ''   ``-.
+     .-''  '  `---' `---'      ``-.
    .'   ''   '  ''  .    ''. '  ''  `.  
-  :   '.---.,,.,...,.,.,.,..---.  ' ;'
-  `. '' `.                     .' ''.`
-   `.  '`.                   .' ' .'`
-    `.    `-._           _.- ' ''  .`
-      `. ''    '''--...--'''  . ' .`
-       '`-._'    '' .     '' _.- `
-           ```--.....--'''     
+  :    .---.,,.,...,.,.,.,..---.     :
+  `.   `.                      .'   `:
+   `.  '`.                    .'    `'
+    `.    `-._            _.-'     .`
+      `. ''    ''--...--''   . ' .`
+       '`-._'    '' .     '' _.-'
+           ```--.....--''' ``    
  
       ");
           System.Console.WriteLine("Press (Q) to quit, or any other key to restart the game");
@@ -449,17 +450,28 @@ namespace burntCookies.Project
       Console.ReadKey();
       SetTimer();
       System.Console.WriteLine("rfw-otoyt");
-      string input = Console.ReadLine().ToLower();
-      if (input == "forty-two")
+      bool unscrambling = true;
+      while (unscrambling)
       {
+        string input = Console.ReadLine().ToLower();
+        Console.Clear();
+        if (input != "forty-two")
+        {
+          System.Console.WriteLine("Try again!\n---------");
+          System.Console.WriteLine("rfw-otoyt");
+          continue;
+        }
+        unscrambling = false;
         System.Console.WriteLine("Congratulations you solved the Word Scramble!");
         CurrentRoom = CurrentRoom.RoomPaths[Direction.kitchen];
         System.Console.WriteLine("You are back in the Kitchen and your Cookies are about to burn! Hurry and Take them out before the timer runs out!");
         GetUserInput();
       }
+
+
     }
 
-    private static void SetTimer()
+    public void SetTimer()
     {
       // Create a timer with a two second interval.
       aTimer = new System.Timers.Timer(120000);
@@ -469,7 +481,7 @@ namespace burntCookies.Project
       aTimer.Enabled = true;
     }
 
-    private static void OnTimedEvent(object sender, ElapsedEventArgs e)
+    private void OnTimedEvent(object sender, ElapsedEventArgs e)
     {
       System.Console.WriteLine("You got distracted in your word scramble and burned the cookies!!!");
       System.Console.WriteLine("Press (Q) to quit, or any other key to restart the game");
