@@ -1,5 +1,5 @@
-﻿burntCookies System;
-burntCookies burntCookies.Project;
+﻿using System;
+using burntCookies.Project;
 
 namespace burntCookies
 {
@@ -7,7 +7,8 @@ namespace burntCookies
   {
     public static void Main(string[] args)
     {
-
+      GameService gs = new GameService();
+      gs.Run();
     }
   }
 }
