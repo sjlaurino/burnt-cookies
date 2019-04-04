@@ -42,6 +42,8 @@ namespace burntCookies.Project
       Fridge.Items.Add(Butter);
       Pantry.Items.Add(CookieMix);
       Pantry.Items.Add(Mixer);
+      Kitchen.Items.Add(Cookies);
+      Player.Inventory.Add(Oven);
 
 
 
@@ -104,6 +106,10 @@ namespace burntCookies.Project
       if (inputs.Length > 1)
       {
         option = inputs[1];
+        if (inputs.Length > 2)
+        {
+          option += " " + inputs[2];
+        }
       }
       Console.Clear();
       switch (command)
@@ -164,7 +170,7 @@ namespace burntCookies.Project
     Item Options:
       Eggs
       Butter
-      CookieMix
+      Cookie Mix
       Mixer
     
 - `Look` Prints the description of the room again
@@ -239,7 +245,7 @@ namespace burntCookies.Project
             .-~-.  :           ;
           .'     '.|           |
          /         \           :
-        :           ; .-~""~-,/
+        :           ; .-~""~-, /
         |           /`        `'.
         :          |             \
          \         |             /
@@ -263,7 +269,7 @@ namespace burntCookies.Project
         ");
           GetUserInput();
           break;
-        case "cookiemix":
+        case "cookie mix":
           System.Console.WriteLine(@"
         +---------------+
         |               |
@@ -296,9 +302,11 @@ namespace burntCookies.Project
           GetUserInput();
           break;
         case "cookies":
-          aTimer.Enabled = false;
-          System.Console.WriteLine("Congratulations you made perfect cookies and beat the Game!");
-          System.Console.WriteLine(@"
+          if (CurrentRoom.Items.Count > 3)
+          {
+            aTimer.Enabled = false;
+            System.Console.WriteLine("Congratulations you made perfect cookies and beat the Game!");
+            System.Console.WriteLine(@"
               .---. .---. 
              :     : o   :    me want cookie!
          _..-:   o :     :-.._    /
@@ -313,13 +321,23 @@ namespace burntCookies.Project
            ```--.....--''' ``    
  
       ");
-          System.Console.WriteLine("Press (Q) to quit, or any other key to restart the game");
-          string input = Console.ReadLine().ToLower();
-          if (input == "q")
-          {
-            Quit();
+            System.Console.WriteLine("Press (Q) to quit, or any other key to restart the game");
+            string input = Console.ReadLine().ToLower();
+            if (input == "q")
+            {
+              Quit();
+            }
+            Reset();
           }
-          Reset();
+          else
+          {
+            Item invalidCookies = Player.Inventory.Find(i =>
+            {
+              return itemName.ToLower() == i.Name.ToLower();
+            });
+            Player.Inventory.Remove(invalidCookies);
+            System.Console.WriteLine("You haven't made the cookies yet!");
+          }
           break;
         default:
           System.Console.WriteLine("Not a valid item, try again...");
@@ -331,7 +349,7 @@ namespace burntCookies.Project
 
     public void UseItem(string itemName)
     {
-      Item item = CurrentRoom.Items.Find(i =>
+      Item item = Player.Inventory.Find(i =>
       {
         return itemName.ToLower() == i.Name.ToLower();
       });
@@ -352,7 +370,7 @@ namespace burntCookies.Project
             .-~-.  :           ;
           .'     '.|           |
          /         \           :
-        :           ; .-~""~-,/
+        :           ; .-~""~-, /
         |           /`        `'.
         :          |             \
          \         |             /
@@ -376,7 +394,7 @@ namespace burntCookies.Project
           System.Console.WriteLine("You added Butter to the Mixer");
           GetUserInput();
           break;
-        case "cookiemix":
+        case "cookie mix":
           System.Console.WriteLine(@"
         +---------------+
         |               |
@@ -398,10 +416,18 @@ namespace burntCookies.Project
         case "mixer":
           if (CurrentRoom.Items.Count < 2)
           {
+            Item invalidMixer = CurrentRoom.Items.Find(i =>
+            {
+              return itemName.ToLower() == i.Name.ToLower();
+            });
+            Player.Inventory.Add(invalidMixer);
+            CurrentRoom.Items.Remove(invalidMixer);
             System.Console.WriteLine("You can't use the Mixer until you have used all of the ingredients");
           }
-          System.Console.WriteLine("You blended the ingredients");
-          System.Console.WriteLine(@"
+          else
+          {
+            System.Console.WriteLine("You blended the ingredients");
+            System.Console.WriteLine(@"
              ___
           , | l | 
          (( | l | ))
@@ -410,15 +436,25 @@ namespace burntCookies.Project
             /...\--.   _  
             =====  `--(_=
           ");
+          }
           GetUserInput();
           break;
         case "oven":
           if (CurrentRoom.Items.Count < 3)
           {
+            Item invalidOven = CurrentRoom.Items.Find(i =>
+            {
+              return itemName.ToLower() == i.Name.ToLower();
+            });
+            Player.Inventory.Add(invalidOven);
+            CurrentRoom.Items.Remove(invalidOven);
             System.Console.WriteLine("You can't use the Oven until you have finished mixing the ingredients");
           }
-          System.Console.WriteLine("You placed the cookies in the Oven\nYour timer is set for 2 minutes... Take them out before the 2 minutes is up");
-          Scramble();
+          else
+          {
+            System.Console.WriteLine("You placed the cookies in the Oven\nYour timer is set for 90 seconds... Take them out before the timer is up");
+            Scramble();
+          }
           break;
         default:
           System.Console.WriteLine("Not a valid item, try again...");
@@ -434,8 +470,9 @@ namespace burntCookies.Project
         foreach (Item item in Player.Inventory)
         {
           System.Console.WriteLine($"{item.Name}");
-          GetUserInput();
         }
+        GetUserInput();
+        return;
       }
       System.Console.WriteLine("No Items in your inventory!");
       System.Console.WriteLine("Reminder... you are in the " + CurrentRoom.Name);
@@ -449,6 +486,8 @@ namespace burntCookies.Project
       System.Console.WriteLine("Press any key to view the challenge");
       Console.ReadKey();
       SetTimer();
+      Console.Clear();
+      System.Console.WriteLine("Unscramble the word!");
       System.Console.WriteLine("rfw-otoyt");
       bool unscrambling = true;
       while (unscrambling)
@@ -474,7 +513,7 @@ namespace burntCookies.Project
     public void SetTimer()
     {
       // Create a timer with a two second interval.
-      aTimer = new System.Timers.Timer(120000);
+      aTimer = new System.Timers.Timer(90000);
       // Hook up the Elapsed event for the timer. 
       aTimer.Elapsed += OnTimedEvent;
       aTimer.AutoReset = true;
@@ -483,6 +522,7 @@ namespace burntCookies.Project
 
     private void OnTimedEvent(object sender, ElapsedEventArgs e)
     {
+      Console.Clear();
       System.Console.WriteLine("You got distracted in your word scramble and burned the cookies!!!");
       System.Console.WriteLine("Press (Q) to quit, or any other key to restart the game");
       string input = Console.ReadLine().ToLower();
