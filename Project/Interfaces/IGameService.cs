@@ -6,7 +6,7 @@ namespace burntCookies.Project.Interfaces
   public interface IGameService
   {
     Room CurrentRoom { get; set; }
-    Player CurrentPlayer { get; set; }
+    Player Player { get; set; }
 
     //Initializes the game, creates rooms, their exits, and add items to rooms
     void Setup();

@@ -11,11 +11,17 @@ namespace burntCookies.Project
 
     public IRoom CurrentRoom { get; set; }
     Room IGameService.CurrentRoom { get; set; }
-    public Player CurrentPlayer { get; set; }
+    public Player Player { get; set; }
     public Timer aTimer { get; set; }
     public bool Playing { get; set; }
 
-    Player Player = new Player();
+    public bool OvenPreheated { get; set; }
+
+    public GameService()
+    {
+      Player = new Player();
+      OvenPreheated = false;
+    }
 
     private void Initialize()
     {
@@ -62,21 +68,21 @@ namespace burntCookies.Project
     public void Setup()
     {
       Initialize();
-      System.Console.WriteLine("Welcome to BurntCookies! \n Press any key to continue");
+      System.Console.WriteLine("Welcome to BurntCookies! \n~Press any key to continue");
       Console.ReadKey();
       Console.Clear();
-      System.Console.WriteLine("BurntCookies is a real life simulation that will test not only your wits, but also your will... \n You have been tasked with making cookies before your spouse gets home.");
-      System.Console.WriteLine("Press any key to continue to the Game Instructions");
+      System.Console.WriteLine("BurntCookies is a real life simulation that will test not only your wits, but also your will... \nYou have been tasked with making cookies without burning them.");
+      System.Console.WriteLine("~Press any key to continue to the Game Instructions");
       Console.ReadKey();
       Console.Clear();
-      System.Console.WriteLine("You are in the Kitchen, you must go between the Pantry and the Fridge to retrieve the necessary ingredients.\nOnce you have the ingredients you need to mix them and put them in the Oven...\nPro-tip: Don't forget to take them out before they burn!\nLastly, when the cookies are finished put them in the Dining Room");
-      System.Console.WriteLine("Press any key to see the Recipe");
+      System.Console.WriteLine("You are in the Kitchen, you must go between the Pantry and the Fridge to retrieve the necessary ingredients.\nOnce you have the ingredients you need to mix them and put them in the Oven...\n If you are able to retreive the cookies before they burn you will win the game.");
+      System.Console.WriteLine("~Press any key to see the Recipe");
       Console.ReadKey();
       Console.Clear();
-      System.Console.WriteLine("Get:\n1. Mixer \n2. 1 Stick of Butter \n3. 1 Package of Cookie Mix\n4. 1 Egg ");
-      System.Console.WriteLine("Directions: Use the Stick of Butter with Egg and Cookie Mix\nThen Use the Mixer to blend the ingredients.");
+      System.Console.WriteLine("Get:\n1. Mixer \n2. 1 Stick of Butter \n3. 1 Package of Cookie Mix\n4. Eggs ");
+      System.Console.WriteLine("Directions: Use the Stick of Butter with the Eggs and Cookie Mix\nThen Use the Mixer to blend the ingredients.\nOnce you have blended the ingredients you can Use the oven.");
       System.Console.WriteLine("At any point in the game you can enter (Help) to view a list of your Commands or (I) to view your Inventory.");
-      System.Console.WriteLine("Press any key to begin");
+      System.Console.WriteLine("~Press any key to begin");
       Console.ReadKey();
       StartGame();
     }
@@ -399,10 +405,10 @@ namespace burntCookies.Project
         +---------------+
         |               |
         |  Cookie Mix   |
-        |               |
+        |               | 
         |   XXXX        |
         |  X    X       |
-        |  X    XXXXX   |
+        |  X    XXXXX   |    
         |  X   XX    X  |
         |   XXX X    X  |
         |        XXXX   |
@@ -414,7 +420,10 @@ namespace burntCookies.Project
           GetUserInput();
           break;
         case "mixer":
-          if (CurrentRoom.Items.Count < 2)
+          Item eggs = CurrentRoom.Items.Find(i => i.Name.ToLower() == "eggs");
+          Item butter = CurrentRoom.Items.Find(i => i.Name.ToLower() == "butter");
+          Item cookieMix = CurrentRoom.Items.Find(i => i.Name.ToLower() == "cookie mix");
+          if (eggs == null || butter == null || cookieMix == null)
           {
             Item invalidMixer = CurrentRoom.Items.Find(i =>
             {
@@ -426,6 +435,7 @@ namespace burntCookies.Project
           }
           else
           {
+            OvenPreheated = true;
             System.Console.WriteLine("You blended the ingredients");
             System.Console.WriteLine(@"
              ___
@@ -440,7 +450,7 @@ namespace burntCookies.Project
           GetUserInput();
           break;
         case "oven":
-          if (CurrentRoom.Items.Count < 3)
+          if (!OvenPreheated)
           {
             Item invalidOven = CurrentRoom.Items.Find(i =>
             {
