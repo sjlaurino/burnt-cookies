@@ -90,6 +90,7 @@ namespace burntCookies.Project
 
     public void Reset()
     {
+      Player.Inventory.Clear();
       Setup();
     }
 
