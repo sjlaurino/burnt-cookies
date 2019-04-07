@@ -181,13 +181,13 @@ namespace burntCookies.Project
       Cookie Mix
       Mixer
     
-- `Look` Prints the description of the room again
-
-- `Map` Shows the game map
+- `Map` Shows your location in the game map
   
-- `Inventory` Prints the players inventory
+- `I` Prints the players inventory
   
 - `Help` Shows a list of commands and actions
+
+- `Look` Prints the description of the current room
 
 - `Reset` Restarts the game
   
