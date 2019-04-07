@@ -87,6 +87,6 @@ in kitchen:
 
 word scramble answer: forty-two
 
-take cookies
+'take' cookies
 
 YOU WIN
