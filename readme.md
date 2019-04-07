@@ -21,24 +21,24 @@ cannot use oven until you have used mixer
 
 BurntCookies Cheat Sheet Walkthrough:
 
-When the game begins 'go' <pantry>.
+When the game begins 'go' pantry.
 in pantry:  
-  'take' <cookie mix>
-  'take' <mixer>
-    -then 'go' <kitchen>
-         'go' <fridge>
+  'take' cookie mix
+  'take' mixer
+    -then 'go' kitchen
+         'go' fridge
 
 in fridge:
-  'take' <eggs> 
-  'take' <butter> 
-    -then 'go' <kitchen>
+  'take' eggs 
+  'take' butter 
+    -then 'go' kitchen
 
 in kitchen:
-'use' <eggs>
-'use' <butter>
-'use' <cookie mix>
-'use' <mixer>
-'use' <oven>
+'use' eggs
+'use' butter
+'use' cookie mix
+'use' mixer
+'use' oven
 
 
 
