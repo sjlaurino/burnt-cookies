@@ -67,6 +67,7 @@ namespace burntCookies.Project
 
     public void Setup()
     {
+      Console.Clear();
       Initialize();
       System.Console.WriteLine("Welcome to BurntCookies! \n~Press any key to continue");
       Console.ReadKey();
@@ -166,7 +167,7 @@ namespace burntCookies.Project
       System.Console.WriteLine(@"- `Go <Room>` Moves the player from room to room
     Go Options:
       Pantry
-      DiningRoom
+      Dining Room
       Fridge
       Kitchen
         
@@ -196,35 +197,40 @@ namespace burntCookies.Project
 
     public void Go(string roomName)
     {
-      Direction dir = Direction.none;
-      switch (roomName)
-      {
-        case "pantry":
-          dir = Direction.pantry;
-          break;
-        case "diningroom":
-          dir = Direction.diningRoom;
-          break;
-        case "fridge":
-          dir = Direction.fridge;
-          break;
-        case "kitchen":
-          dir = Direction.kitchen;
-          break;
-        default:
-          Console.WriteLine("Try again");
-          break;
-      }
-      if (CurrentRoom.RoomPaths.ContainsKey(dir))
-      {
-        CurrentRoom = CurrentRoom.RoomPaths[dir];
-        System.Console.WriteLine($"You are in the {CurrentRoom.Name}, what would you like to do?");
-        GetUserInput();
-      }
+      if (CurrentRoom.Name.ToLower() == roomName.ToLower())
+      { System.Console.WriteLine($"You are already in the {CurrentRoom.Name}"); }
       else
       {
-        System.Console.WriteLine("Cannot go there from this room... try a different room");
-        GetUserInput();
+        Direction dir = Direction.none;
+        switch (roomName)
+        {
+          case "pantry":
+            dir = Direction.pantry;
+            break;
+          case "dining room":
+            dir = Direction.diningRoom;
+            break;
+          case "fridge":
+            dir = Direction.fridge;
+            break;
+          case "kitchen":
+            dir = Direction.kitchen;
+            break;
+          default:
+            Console.WriteLine("Try again");
+            break;
+        }
+        if (CurrentRoom.RoomPaths.ContainsKey(dir))
+        {
+          CurrentRoom = CurrentRoom.RoomPaths[dir];
+          System.Console.WriteLine($"You are in the {CurrentRoom.Name}, what would you like to do?");
+          GetUserInput();
+        }
+        else
+        {
+          System.Console.WriteLine("Cannot go there from this room... try a different room");
+          GetUserInput();
+        }
       }
     }
 
@@ -534,7 +540,7 @@ namespace burntCookies.Project
     {
       Console.Clear();
       System.Console.WriteLine("You got distracted in your word scramble and burned the cookies!!!");
-      System.Console.WriteLine("Press (Q) to quit, or any other key to restart the game");
+      System.Console.WriteLine("Press (Q) to quit, or enter any other key to restart the game");
       string input = Console.ReadLine().ToLower();
       if (input == "q")
       {
@@ -552,10 +558,32 @@ namespace burntCookies.Project
 
     public void ShowMap()
     {
-      System.Console.WriteLine(@"
+      if (CurrentRoom.Name is "Kitchen")
+      {
+        System.Console.WriteLine(CurrentRoom.Name);
+        System.Console.WriteLine(@"
                  +------+
-                 |Fridge|
+                 |Fridge|     * = your location
                  |      |
+         +----------  ----+
+         |                |
++--------+         *      |
+|        |                |
+| Dining       Kitchen    |
+|  Room  |                |
+|        +                |
++--------+-----+--   -+---+
+               |        |
+               | Pantry |
+               +--------+
+      ");
+      }
+      else if (CurrentRoom.Name is "Fridge")
+      {
+        System.Console.WriteLine(@"
+                 +------+
+                 |Fridge|     * = your location
+                 |  *   |
          +----------  ----+
          |                |
 +--------+                |
@@ -568,6 +596,45 @@ namespace burntCookies.Project
                | Pantry |
                +--------+
       ");
+      }
+      else if (CurrentRoom.Name is "Pantry")
+      {
+        System.Console.WriteLine(@"
+                 +------+
+                 |Fridge|     * = your location
+                 |      |
+         +----------  ----+
+         |                |
++--------+                |
+|        |                |
+| Dining       Kitchen    |
+|  Room  |                |
+|        +                |
++--------+-----+--   -+---+
+               |   *    |
+               | Pantry |
+               +--------+
+      ");
+      }
+      else if (CurrentRoom.Name is "Dining Room")
+      {
+        System.Console.WriteLine(@"
+                 +------+
+                 |Fridge|     * = your location
+                 |      |
+         +----------  ----+
+         |                |
++--------+                |
+|        |                |
+| Dining       Kitchen    |
+|  Room  |                |
+|   *    +                |
++--------+-----+--   -+---+
+               |        |
+               | Pantry |
+               +--------+
+      ");
+      }
       GetUserInput();
     }
   }
