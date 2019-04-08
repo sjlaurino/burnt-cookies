@@ -165,6 +165,7 @@ namespace burntCookies.Project
 
     public void Help()
     {
+      Console.Clear();
       System.Console.WriteLine(@"- `Go <Room>` Moves the player from room to room
     Go Options:
       Pantry
